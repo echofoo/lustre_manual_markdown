@@ -1,12 +1,36 @@
-[TOC]
+# Table of Content
+- [Introducing the Lustre* File System](#introducing-the-lustre--file-system)
+  * [Understanding Lustre Architecture<div id="understanding"></div>](#understanding-lustre-architecture-div-id--understanding----div-)
+    + [What a Lustre File System Is (and What It Isn't)](#what-a-lustre-file-system-is--and-what-it-isn-t-)
+      - [Lustre Features](#lustre-features)
+    + [Lustre Components](#lustre-components)
+      - [Management Server (MGS)](#management-server--mgs-)
+      - [Lustre File System Components](#lustre-file-system-components)
+      - [Lustre Networking (LNet)](#lustre-networking--lnet-)
+      - [Lustre Cluster](#lustre-cluster)
+    + [Lustre File System Storage and I/O](#lustre-file-system-storage-and-i-o)
+      - [Lustre File System and Striping](#lustre-file-system-and-striping)
+  * [Understanding Lustre Networking (LNet)](#understanding-lustre-networking--lnet-)
+    + [Introducing LNet](#introducing-lnet)
+    + [Key Features of LNet](#key-features-of-lnet)
+    + [Lustre Networks](#lustre-networks)
+    + [Supported Network Types](#supported-network-types)
+  * [Understanding Failover in a Lustre File System](#understanding-failover-in-a-lustre-file-system)
+    + [What is Failover?](#what-is-failover-)
+      - [Failover Capabilities](#failover-capabilities)
+      - [Types of Failover Configurations](#types-of-failover-configurations)
+    + [Failover Functionality in a Lustre File System](#failover-functionality-in-a-lustre-file-system)
+      - [MDT Failover Configuration (Active/Passive)](#mdt-failover-configuration--active-passive-)
+      - [MDT Failover Configuration (Active/Active)](#mdt-failover-configuration--active-active-)
+      - [OST Failover Configuration (Active/Active)](#ost-failover-configuration--active-active-)
 
 # Introducing the Lustre* File System
 
 Part I provides background information to help you understand the Lustre file system architecture and how the major components fit together. You will find information in this section about:
 
-- [Understanding Lustre Architecture](#understanding)
-- [Understanding Lustre Networking (LNet)](understandinglustrenetworking.html)
-- [Understanding Failover in a Lustre File System](understandingfailover.html)
+- [Understanding Lustre Architecture<div id="understanding"></div>](#understanding-lustre-architecture-div-id--understanding----div-)
+- [Understanding Lustre Networking (LNet)](#understanding-lustre-networking--lnet-)
+- [Understanding Failover in a Lustre File System](#understanding-failover-in-a-lustre-file-system)
 
 ## Understanding Lustre Architecture<div id="understanding"></div>
 
@@ -48,26 +72,26 @@ A Lustre installation can be scaled up or down with respect to the number of cli
 
 Other Lustre software features are:
 
-- **Performance-enhanced ext4 file system:**The Lustre file system uses an improved version of the ext4 journaling file system to store data and metadata. This version, called `ldiskfs` , has been enhanced to improve performance and provide additional functionality needed by the Lustre file system.
+- **Performance-enhanced ext4 file system:** The Lustre file system uses an improved version of the ext4 journaling file system to store data and metadata. This version, called `ldiskfs` , has been enhanced to improve performance and provide additional functionality needed by the Lustre file system.
 - Introduced in Lustre 2.4With the Lustre software release 2.4 and later, it is also possible to use ZFS as the backing filesystem for Lustre for the MDT, OST, and MGS storage. This allows Lustre to leverage the scalability and data integrity features of ZFS for individual storage targets.
-- **POSIX standard compliance:**The full POSIX test suite passes in an identical manner to a local ext4 file system, with limited exceptions on Lustre clients. In a cluster, most operations are atomic so that clients never see stale data or metadata. The Lustre software supports mmap() file I/O.
-- **High-performance heterogeneous networking:**The Lustre software supports a variety of high performance, low latency networks and permits Remote Direct Memory Access (RDMA) for InfiniBand *(utilizing OpenFabrics Enterprise Distribution (OFED*), Intel OmniPath®, and other advanced networks for fast and efficient network transport. Multiple RDMA networks can be bridged using Lustre routing for maximum performance. The Lustre software also includes integrated network diagnostics.
-- **High-availability:**The Lustre file system supports active/active failover using shared storage partitions for OSS targets (OSTs). Lustre software release 2.3 and earlier releases offer active/passive failover using a shared storage partition for the MDS target (MDT). The Lustre file system can work with a variety of high availability (HA) managers to allow automated failover and has no single point of failure (NSPF). This allows application transparent recovery. Multiple mount protection (MMP) provides integrated protection from errors in highly-available systems that would otherwise cause file system corruption.
+- **POSIX standard compliance:** The full POSIX test suite passes in an identical manner to a local ext4 file system, with limited exceptions on Lustre clients. In a cluster, most operations are atomic so that clients never see stale data or metadata. The Lustre software supports mmap() file I/O.
+- **High-performance heterogeneous networking:** The Lustre software supports a variety of high performance, low latency networks and permits Remote Direct Memory Access (RDMA) for InfiniBand *(utilizing OpenFabrics Enterprise Distribution (OFED*), Intel OmniPath®, and other advanced networks for fast and efficient network transport. Multiple RDMA networks can be bridged using Lustre routing for maximum performance. The Lustre software also includes integrated network diagnostics.
+- **High-availability:** The Lustre file system supports active/active failover using shared storage partitions for OSS targets (OSTs). Lustre software release 2.3 and earlier releases offer active/passive failover using a shared storage partition for the MDS target (MDT). The Lustre file system can work with a variety of high availability (HA) managers to allow automated failover and has no single point of failure (NSPF). This allows application transparent recovery. Multiple mount protection (MMP) provides integrated protection from errors in highly-available systems that would otherwise cause file system corruption.
 - Introduced in Lustre 2.4With Lustre software release 2.4 or later servers and clients it is possible to configure active/active failover of multiple MDTs. This allows scaling the metadata performance of Lustre filesystems with the addition of MDT storage devices and MDS nodes.
-- **Security:**By default TCP connections are only allowed from privileged ports. UNIX group membership is verified on the MDS.
-- **Access control list (ACL), extended attributes:**the Lustre security model follows that of a UNIX file system, enhanced with POSIX ACLs. Noteworthy additional features include root squash.
-- **Interoperability:**The Lustre file system runs on a variety of CPU architectures and mixed-endian clusters and is interoperable between successive major Lustre software releases.
-- **Object-based architecture:**Clients are isolated from the on-disk file structure enabling upgrading of the storage architecture without affecting the client.
-- **Byte-granular file and fine-grained metadata locking:**Many clients can read and modify the same file or directory concurrently. The Lustre distributed lock manager (LDLM) ensures that files are coherent between all clients and servers in the file system. The MDT LDLM manages locks on inode permissions and pathnames. Each OST has its own LDLM for locks on file stripes stored thereon, which scales the locking performance as the file system grows.
-- **Quotas:**User and group quotas are available for a Lustre file system.
+- **Security:** By default TCP connections are only allowed from privileged ports. UNIX group membership is verified on the MDS.
+- **Access control list (ACL), extended attributes:** the Lustre security model follows that of a UNIX file system, enhanced with POSIX ACLs. Noteworthy additional features include root squash.
+- **Interoperability:** The Lustre file system runs on a variety of CPU architectures and mixed-endian clusters and is interoperable between successive major Lustre software releases.
+- **Object-based architecture:** Clients are isolated from the on-disk file structure enabling upgrading of the storage architecture without affecting the client.
+- **Byte-granular file and fine-grained metadata locking:** Many clients can read and modify the same file or directory concurrently. The Lustre distributed lock manager (LDLM) ensures that files are coherent between all clients and servers in the file system. The MDT LDLM manages locks on inode permissions and pathnames. Each OST has its own LDLM for locks on file stripes stored thereon, which scales the locking performance as the file system grows.
+- **Quotas:** User and group quotas are available for a Lustre file system.
 - **Capacity growth:**The size of a Lustre file system and aggregate cluster bandwidth can be increased without interruption by adding new OSTs and MDTs to the cluster.
-- **Controlled file layout:**The layout of files across OSTs can be configured on a per file, per directory, or per file system basis. This allows file I/O to be tuned to specific application requirements within a single file system. The Lustre file system uses RAID-0 striping and balances space usage across OSTs.
-- **Network data integrity protection:**A checksum of all data sent from the client to the OSS protects against corruption during data transfer.
-- **MPI I/O:**The Lustre architecture has a dedicated MPI ADIO layer that optimizes parallel I/O to match the underlying file system architecture.
-- **NFS and CIFS export:**Lustre files can be re-exported using NFS (via Linux knfsd or Ganesha) or CIFS (via Samba), enabling them to be shared with non-Linux clients such as Microsoft*Windows, *Apple *Mac OS X*, and others.
-- **Disaster recovery tool:**The Lustre file system provides an online distributed file system check (LFSCK) that can restore consistency between storage components in case of a major file system error. A Lustre file system can operate even in the presence of file system inconsistencies, and LFSCK can run while the filesystem is in use, so LFSCK is not required to complete before returning the file system to production.
-- **Performance monitoring:**The Lustre file system offers a variety of mechanisms to examine performance and tuning.
-- **Open source:**The Lustre software is licensed under the GPL 2.0 license for use with the Linux operating system.
+- **Controlled file layout:** The layout of files across OSTs can be configured on a per file, per directory, or per file system basis. This allows file I/O to be tuned to specific application requirements within a single file system. The Lustre file system uses RAID-0 striping and balances space usage across OSTs.
+- **Network data integrity protection:** A checksum of all data sent from the client to the OSS protects against corruption during data transfer.
+- **MPI I/O:** The Lustre architecture has a dedicated MPI ADIO layer that optimizes parallel I/O to match the underlying file system architecture.
+- **NFS and CIFS export:** Lustre files can be re-exported using NFS (via Linux knfsd or Ganesha) or CIFS (via Samba), enabling them to be shared with non-Linux clients such as Microsoft*Windows, *Apple *Mac OS X*, and others.
+- **Disaster recovery tool:** The Lustre file system provides an online distributed file system check (LFSCK) that can restore consistency between storage components in case of a major file system error. A Lustre file system can operate even in the presence of file system inconsistencies, and LFSCK can run while the filesystem is in use, so LFSCK is not required to complete before returning the file system to production.
+- **Performance monitoring:** The Lustre file system offers a variety of mechanisms to examine performance and tuning.
+- **Open source:** The Lustre software is licensed under the GPL 2.0 license for use with the Linux operating system.
 
 ### Lustre Components 
 
@@ -159,15 +183,15 @@ Information about where file data is located on the OST(s) is stored as an exten
 
 **Figure 3. Layout EA on MDT pointing to file data on OSTs**
 
-  ![Layout EA on MDT pointing to file data on OSTs](./figures/Metadata_File.png)
+ ![Layout EA on MDT pointing to file data on OSTs](./figures/Metadata_File.png)
 
- 
+
 
 When a client wants to read from or write to a file, it first fetches the layout EA from the MDT object for the file. The client then uses this information to perform I/O on the file, directly interacting with the OSS nodes where the objects are stored. This process is illustrated in [Figure 4, “Lustre client requesting file data”](understandinglustre.storageio.html#Fig1.4_ClientReqstgData) .
 
 **Figure 4. Lustre client requesting file data**
 
-  ![Lustre client requesting file data](./figures/File_Write.png)
+ ![Lustre client requesting file data](./figures/File_Write.png)
 
 The available bandwidth of a Lustre file system is determined as follows:
 
@@ -200,9 +224,8 @@ No space is reserved on the OST for unwritten data. File A in [Figure 5, “File
 
 **Figure 5. File striping on a Lustre file system**
 
-  ![File striping pattern across three OSTs for three different data files. The file is sparse and missing chunk 6.](./figures/File_Striping.png)
+ ![File striping pattern across three OSTs for three different data files. The file is sparse and missing chunk 6.](./figures/File_Striping.png)
 
- 
 
 The maximum file size is not limited by the size of a single target. In a Lustre file system, files can be striped across multiple objects (up to 2000), and each object can be up to 16 TiB in size with ldiskfs, or up to 256PiB with ZFS. This leads to a maximum file size of 31.25 PiB for ldiskfs or 8EiB with ZFS. Note that a Lustre file system can support files up to 2^63 bytes (8EiB), limited only by the space available on the OSTs.
 
@@ -285,8 +308,8 @@ The LNet code module includes LNDs to support many network types including:
 
 This chapter describes failover in a Lustre file system. It includes:
 
-- [the section called “ What is Failover?”](dbdoclet.50540653_59957.html)
-- [the section called “ Failover Functionality in a Lustre File System”](dbdoclet.50540653_97944.html)
+- [the section called “ What is Failover?”](#what-is-failover-)
+- [the section called “ Failover Functionality in a Lustre File System”](#failover-functionality-in-a-lustre-file-system)
 
 ### What is Failover?
 
@@ -364,7 +387,7 @@ OST failover functionality does not protect against corruption caused by a disk 
 
 #### MDT Failover Configuration (Active/Passive)
 
-Two MDSs are typically configured as an active/passive failover pair as shown in [Figure 6, “Lustre failover configuration for a active/passive MDT”](ch03s02s01.html#understandingfailover.fig.configmdt). Note that both nodes must have access to shared storage for the MDT(s) and the MGS. The primary (active) MDS manages the Lustre system metadata resources. If the primary MDS fails, the secondary (passive) MDS takes over these resources and serves the MDTs and the MGS.
+Two MDSs are typically configured as an active/passive failover pair as shown in [Figure 6, “Lustre failover configuration for a active/passive MDT”](understanding-failover.fig.configmdt). Note that both nodes must have access to shared storage for the MDT(s) and the MGS. The primary (active) MDS manages the Lustre system metadata resources. If the primary MDS fails, the secondary (passive) MDS takes over these resources and serves the MDTs and the MGS.
 
 **Note**
 
@@ -380,7 +403,9 @@ Introduced in Lustre 2.4
 
 Multiple MDTs became available with the advent of Lustre software release 2.4. MDTs can be setup as an active/active failover configuration. A failover cluster is built from two MDSs as shown in [Figure 7, “Lustre failover configuration for a active/active MDTs”](dbdoclet.mdtactiveactive.html#understandingfailover.fig.configmdts).
 
-**Figure 7. Lustre failover configuration for a active/active MDTs**![Lustre failover configuration for two MDTs](figures/MDTs_Failover.png) 
+**Figure 7. Lustre failover configuration for a active/active MDTs**
+
+![Lustre failover configuration for two MDTs](figures/MDTs_Failover.png) 
 
 #### OST Failover Configuration (Active/Active)
 
@@ -394,7 +419,7 @@ OSSs configured as a failover pair must have shared disks/RAID.
 
  ![Lustre failover configuration for an OSTs](./figures/OST_Failover.png)
 
-
+ 
 
 In an active configuration, 50% of the available OSTs are assigned to one OSS and the remaining OSTs are assigned to the other OSS. Each OSS serves as the primary node for half the OSTs and as a failover node for the remaining OSTs.
 

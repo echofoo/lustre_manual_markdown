@@ -77,6 +77,8 @@ A basic configuration of Lustre file system components is shown in [Figure 1, â€
 
 **Figure 1. Lustre file system components in a basic cluster**
 
+![Lustre file system components in a basic cluster](./figures/Basic_Cluster.png)
+
 #### Management Server (MGS)
 
 The MGS stores configuration information for all the Lustre file systems in a cluster and provides this information to other Lustre components. Each Lustre target contacts the MGS to provide information, and Lustre clients contact the MGS to retrieve information.
@@ -135,7 +137,7 @@ At scale, a Lustre file system cluster can include hundreds of OSSs and thousand
 
 **Figure 2.  Lustre cluster at scale**
 
-
+![Lustre file system cluster at scale](./figures/Scaled_Cluster.png)
 
 ### Lustre File System Storage and I/O
 
@@ -157,7 +159,7 @@ Information about where file data is located on the OST(s) is stored as an exten
 
 **Figure 3. Layout EA on MDT pointing to file data on OSTs**
 
- 
+  ![Layout EA on MDT pointing to file data on OSTs](./figures/Metadata_File.png)
 
  
 
@@ -165,7 +167,7 @@ When a client wants to read from or write to a file, it first fetches the layout
 
 **Figure 4. Lustre client requesting file data**
 
- 
+  ![Lustre client requesting file data](./figures/File_Write.png)
 
 The available bandwidth of a Lustre file system is determined as follows:
 
@@ -198,7 +200,7 @@ No space is reserved on the OST for unwritten data. File A in [Figure 5, â€œFile
 
 **Figure 5. File striping on a Lustre file system**
 
- 
+  ![File striping pattern across three OSTs for three different data files. The file is sparse and missing chunk 6.](./figures/File_Striping.png)
 
  
 
@@ -390,9 +392,9 @@ OSSs configured as a failover pair must have shared disks/RAID.
 
 **Figure 8. Lustre failover configuration for an OSTs**
 
- 
+ ![Lustre failover configuration for an OSTs](./figures/OST_Failover.png)
 
- 
+
 
 In an active configuration, 50% of the available OSTs are assigned to one OSS and the remaining OSTs are assigned to the other OSS. Each OSS serves as the primary node for half the OSTs and as a failover node for the remaining OSTs.
 

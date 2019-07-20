@@ -4,12 +4,12 @@ The Lustre*Software Release 2.x Operations Manual provides detailed information 
 
 - [Preface](#preface)
   * [About this Document](#about-this-document)
-    + [UNIX* Commands](#unix--commands)
+    + [UNIX* Commands](#unix-commands)
     + [Shell Prompts](#shell-prompts)
     + [Related Documentation](#related-documentation)
     + [Documentation and Support](#documentation-and-support)
   * [Revisions](#revisions)
-    + [which version?](#which-version-)
+    + [which version?](#which-version)
 
 
 

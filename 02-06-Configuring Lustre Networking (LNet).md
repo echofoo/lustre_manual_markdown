@@ -62,7 +62,7 @@ LNet will use the first TCP/IP interface it discovers on a system (`eth0`) if it
 
 Introduced in Lustre 2.7The `lnetctl` utility can be used to initialize LNet without bringing up any network interfaces. Network interfaces can be added after configuring LNet via `lnetctl`. `lnetctl` can also be used to manage an operational LNet. However, if it wasn't initialized by `lnetctl` then `lnetctl lnet configure` must be invoked before `lnetctl` can be used to manage LNet.
 
-Introduced in Lustre 2.7DLC also introduces a C-API to enable configuring LNet programatically. See [*LNet Configuration C-API*](lnetconfigurationapi.html)
+Introduced in Lustre 2.7DLC also introduces a C-API to enable configuring LNet programatically. See [*LNet Configuration C-API*](06.08-LNet%20Configuration%20C-API.md)
 
 
 
@@ -140,7 +140,7 @@ lnetctl net add --net tcp2 --if eth0
                 --peer_timeout 180 --peer_credits 8
 ```
 
-Introduced in Lustre 2.10NoteWith the addition of Software based Multi-Rail in Lustre 2.10, the following should be noted:--net: no longer needs to be unique since multiple interfaces can be added to the same network.--if: The same interface per network can be added only once, however, more than one interface can now be specified (separated by a comma) for a node. For example: eth0,eth1,eth2.For examples on adding multiple interfaces via `lnetctl net add`and/or YAML, please see [the section called “Configuring Multi-Rail”](dbdoclet.mrconfiguring.html)
+Introduced in Lustre 2.10NoteWith the addition of Software based Multi-Rail in Lustre 2.10, the following should be noted:--net: no longer needs to be unique since multiple interfaces can be added to the same network.--if: The same interface per network can be added only once, however, more than one interface can now be specified (separated by a comma) for a node. For example: eth0,eth1,eth2.For examples on adding multiple interfaces via `lnetctl net add`and/or YAML, please see [the section called “Configuring Multi-Rail”](03.5-LNet%20Software%20Multi-Rail%202.10.md)
 
 Networks can be deleted with the **lnetctl net del** command:
 
@@ -197,7 +197,7 @@ Introduced in Lustre 2.10
 
 ### Manual Adding, Deleting and Showing Peers
 
-The **lnetctl peer add** command is used to manually add a remote peer to a software multi-rail configuration. For the dynamic peer discovery capability introduced in Lustre Release 2.11.0, please see [the section called “Dynamic Peer Discovery”](lnet_config.dynamic_discovery.html).
+The **lnetctl peer add** command is used to manually add a remote peer to a software multi-rail configuration. For the dynamic peer discovery capability introduced in Lustre Release 2.11.0, please see [the section called “Dynamic Peer Discovery”](02-06-Configuring%20Lustre%20Networking%20(LNet).md#dynamic-peer-discovery).
 
 When configuring peers, use the `–-prim_nid` option to specify the key or primary nid of the peer node. Then follow that with the `--nid` option to specify a set of comma separated NIDs.
 
@@ -330,7 +330,7 @@ Dynamic Discovery is very light on the configuration side. It can only be turned
 lnetctl set discovery [0 | 1]
 ```
 
-To check the current `discovery` setting, the `lnetctl global show` command can be used as shown in [the section called “Displaying Global Settings”](lnet_config.show_global_settings.html).
+To check the current `discovery` setting, the `lnetctl global show` command can be used as shown in [the section called “Displaying Global Settings”](02-06-Configuring%20Lustre%20Networking%20(LNet).md#displaying-global-settings).
 
 #### Initiating Dynamic Discovery on Demand
 
@@ -421,7 +421,7 @@ lnetctl set routing [0 | 1]
 
 ### Showing routing information
 
-When routing is enabled on a node, the tiny, small and large routing buffers are allocated. See [the section called “ Tuning LNet Parameters”](dbdoclet.50438272_73839.html) for more details on router buffers. This information can be shown as follows:
+When routing is enabled on a node, the tiny, small and large routing buffers are allocated. See [the section called “ Tuning LNet Parameters”](04.03-Tuning%20a%20Lustre%20File%20System.md#tuning-lnet-parameters) for more details on router buffers. This information can be shown as follows:
 
 ```
 lnetctl routing show: show routing information
@@ -512,7 +512,7 @@ lnetctl set drop_asym_route [0 | 1]
 
 This command works on a per-node basis. This means each node in a Lustre cluster can decide whether it accepts asymmetrical route messages.
 
-To check the current `drop_asym_route` setting, the `lnetctl global show` command can be used as shown in [the section called “Displaying Global Settings”](lnet_config.show_global_settings.html).
+To check the current `drop_asym_route` setting, the `lnetctl global show` command can be used as shown in [the section called “Displaying Global Settings”](#displaying-global-settings).
 
 By default, asymmetric route detection is off.
 
@@ -561,7 +561,7 @@ lnetctl stats show
 
 ### YAML Syntax
 
-[Network Configuration](ch09s01s14s01.html)[Route Configuration](ch09s01s14s04.html)The `lnetctl` utility can take in a YAML file describing the configuration items that need to be operated on and perform one of the following operations: add, delete or show on the items described there in.
+The `lnetctl` utility can take in a YAML file describing the configuration items that need to be operated on and perform one of the following operations: add, delete or show on the items described there in.
 
 Net, routing and route YAML blocks are all defined as a YAML sequence, as shown in the following sections. The stats YAML block is a YAML object. Each sequence item can take a seq_no field. This seq_no field is returned in the error block. This allows the caller to associate the error with the item that caused the error. The `lnetctl`utilty does a best effort at configuring items defined in the YAML file. It does not stop processing the file at the first error.
 
@@ -625,8 +625,6 @@ Both seq_no and detail fields do not appear in the show output.
 
 ## Overview of LNet Module Parameters
 
-- [Using a Lustre Network Identifier (NID) to Identify a Node](ch09s02s01.html)
-
 LNet kernel module (lnet) parameters specify how LNet is to be configured to work with Lustre, including which NICs will be configured to work with Lustre and the routing to be used with Lustre.
 
 Parameters for LNet can be specified in the `/etc/modprobe.d/lustre.conf` file. In some cases the parameters may have been stored in `/etc/modprobe.conf`, but this has been deprecated since before RHEL5 and SLES10, and having a separate`/etc/modprobe.d/lustre.conf` file simplifies administration and distribution of the Lustre networking configuration. This file contains one or more entries with the syntax:
@@ -640,15 +638,15 @@ To specify the network interfaces that are to be used for Lustre, set either the
 - `networks` - Specifies the networks to be used.
 - `ip2nets` - Lists globally-available networks, each with a range of IP addresses. LNet then identifies locally-available networks through address list-matching lookup.
 
-See [the section called “Setting the LNet Module networks Parameter”](lnet_module_network_params.html) and [the section called “Setting the LNet Module ip2nets Parameter”](lnet_ip2nets.html) for more details.
+See [the section called “Setting the LNet Module networks Parameter”](#setting-the-lnet-module-networks-parameter) and [the section called “Setting the LNet Module ip2nets Parameter”](#setting-the-lnet-module-ip2nets-parameter) for more details.
 
 To set up routing between networks, use:
 
 - `routes` - Lists networks and the NIDs of routers that forward to them.
 
-See [the section called “Setting the LNet Module routes Parameter”](lnet_module_routes.html) for more details.
+See [the section called “Setting the LNet Module routes Parameter”](#setting-the-lnet-module-routes-parameter) for more details.
 
-A `router` checker can be configured to enable Lustre nodes to detect router health status, avoid routers that appear dead, and reuse those that restore service after failures. See [the section called “Configuring the Router Checker”](lnet_router_checker.html) for more details.
+A `router` checker can be configured to enable Lustre nodes to detect router health status, avoid routers that appear dead, and reuse those that restore service after failures. See [the section called “Configuring the Router Checker”](#configuring-the-router-checker) for more details.
 
 For a complete reference to the LNet module parameters, see *Configuration Files and Module ParametersLNet Options*.
 
@@ -688,8 +686,6 @@ lctl which_nid MDS_NID
 ```
 
 ## Setting the LNet Module networks Parameter
-
-- [Multihome Server Example](ch09s03s01.html)
 
 If a node has more than one network interface, you'll typically want to dedicate a specific interface to Lustre. You can do this by including an entry in the `lustre.conf`file on the node that sets the LNet module `networks` parameter:
 
@@ -752,7 +748,7 @@ By default, Lustre ignores the loopback (`lo0`) interface. Lustre does not ignor
 
 ### Note
 
-If the server has multiple interfaces on the same subnet, the Linux kernel will send all traffic using the first configured interface. This is a limitation of Linux, not Lustre. In this case, network interface bonding should be used. For more information about network interface bonding, see [*Setting Up Network Interface Bonding*](settingupbonding.html).
+If the server has multiple interfaces on the same subnet, the Linux kernel will send all traffic using the first configured interface. This is a limitation of Linux, not Lustre. In this case, network interface bonding should be used. For more information about network interface bonding, see [*Setting Up Network Interface Bonding*](02-04-Setting%20Up%20Network%20Interface%20Bonding.md).
 
 ## Setting the LNet Module ip2nets Parameter
 
@@ -785,8 +781,6 @@ The `[2-8/2]` format indicates a range of 2-8 stepped by 2; that is 2,4,6,8. Thu
 Introduced in Lustre 2.10NoteMulti-rail deprecates the kernel parsing of ip2nets. ip2nets patterns are matched in user space and translated into Network interfaces to be added into the system.The first interface that matches the IP pattern will be used when adding a network interface.If an interface is explicitly specified as well as a pattern, the interface matched using the IP pattern will be sanitized against the explicitly-defined interface.For example, `tcp(eth0) 192.168.*.3` and there exists in the system `eth0 == 192.158.19.3` and `eth1 == 192.168.3.3`, then the configuration will fail, because the pattern contradicts the interface specified.A clear warning will be displayed if inconsistent configuration is encountered.You could use the following command to configure ip2nets:`lnetctl import < ip2nets.yaml`For example:`ip2nets:   - net-spec: tcp1     interfaces:          0: eth0          1: eth1     ip-range:          0: 192.168.*.19          1: 192.168.100.105   - net-spec: tcp2     interfaces:          0: eth2     ip-range:          0: 192.168.*.*`
 
 ## Setting the LNet Module routes Parameter
-
-- [Routing Example](ch09s05s01.html)
 
 The LNet module routes parameter is used to identify routers in a Lustre configuration. These parameters are set in `modprobe.conf` on each Lustre node.
 
@@ -839,7 +833,7 @@ lctl network configure
 
 ## Testing the LNet Configuration
 
-After configuring Lustre Networking, it is highly recommended that you test your LNet configuration using the LNet Self-Test provided with the Lustre software. For more information about using LNet Self-Test, see [*Testing Lustre Network Performance (LNet Self-Test)*](lnetselftest.html).
+After configuring Lustre Networking, it is highly recommended that you test your LNet configuration using the LNet Self-Test provided with the Lustre software. For more information about using LNet Self-Test, see [*Testing Lustre Network Performance (LNet Self-Test)*](04.01-Testing%20Lustre%20Network%20Performance%20(LNet%20Self-Test).md).
 
 ## Configuring the Router Checker
 
@@ -900,8 +894,6 @@ If a router is marked 'up' and responds to a ping, the timeout is reset.
 If 100 packets have been sent successfully through a router, the sent-packets counter for that router will have a value of 100.
 
 ## Best Practices for LNet Options
-
-- [Escaping commas with quotes](lnet_best_practices.escape_comments.html)[Including comments](lnet_best_practices.comments.html)
 
 For the `networks`, `ip2nets`, and `routes` options, follow these best practices to avoid configuration errors.
 

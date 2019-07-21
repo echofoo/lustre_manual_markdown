@@ -16,7 +16,7 @@ This chapter describes how to install the Lustre software from RPM packages. It 
 - [the section called “ Preparing to Install the Lustre Software”](#preparing-to-install-the-lustre-software)
 - [the section called “Lustre Software Installation Procedure”](#lustre-software-installation-procedure)
 
-For hardware and system requirements and hardware configuration information, see[*Determining Hardware Configuration Requirements and Formatting Options*](settinguplustresystem.html).
+For hardware and system requirements and hardware configuration information, see[*Determining Hardware Configuration Requirements and Formatting Options*](02-02-Determining%20Hardware%20Configuration%20Requirements%20and%20Formatting%20Options.md).
 
 ## Preparing to Install the Lustre Software
 
@@ -35,12 +35,10 @@ To install the Lustre software from RPMs, the following are required:
 
   
 
-  
-
-  **Table 5. Packages Installed on Lustre Servers**
+  ##### Table 5. Packages Installed on Lustre Servers
 
   | Package Name                            | Description                                                  |
-  | --------------------------------------- | ------------------------------------------------------------ |
+| --------------------------------------- | ------------------------------------------------------------ |
   | `kernel-*ver*_lustre.*arch*`            | Linux kernel with Lustre software patches (often referred to as "patched kernel") |
   | `lustre-*ver*.*arch*`                   | Lustre software command line tools                           |
   | `kmod-lustre-*ver*.*arch*`              | Lustre-patched kernel modules                                |
@@ -50,14 +48,14 @@ To install the Lustre software from RPMs, the following are required:
   | `lustre-osd-zfs-mount-*ver*.*arch*`     | Helper library for `mount.lustre` and `mkfs.lustre` for ZFS-based servers (zfs utilities available separately). |
   | `e2fsprogs`                             | Utilities to maintain Lustre ldiskfs back-end file system(s) |
   | `lustre-tests-*ver*_lustre.*arch*`      | Lustre I/O Kit benchmarking tools (Included in Lustre software as of release 2.2) |
-
+  
 - **Lustre client packages** . The required packages for Lustre 2.9 EL7 clients are listed in the table below, where *ver* refers to the Linux distribution (e.g., 3.6.18-348.1.1.el5). These packages are available in the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository.
 
   
 
   
 
-  **Table 6. Packages Installed on Lustre Clients**
+  ##### Table 6. Packages Installed on Lustre Clients
 
   | Package Name                      | Description                                                  |
   | --------------------------------- | ------------------------------------------------------------ |
@@ -69,11 +67,11 @@ To install the Lustre software from RPMs, the following are required:
 
   The version of the kernel running on a Lustre client must be the same as the version of the `kmod-lustre-client-*ver*` package being installed, unless the DKMS package is installed. If the kernel running on the client is not compatible, a kernel that is compatible must be installed on the client before the Lustre file system software is used.
 
-- **Lustre LNet network driver (LND)** . The Lustre LNDs provided with the Lustre software are listed in the table below. For more information about Lustre LNet, see [*Understanding Lustre Networking (LNet)*](understandinglustrenetworking.html).
+- **Lustre LNet network driver (LND)** . The Lustre LNDs provided with the Lustre software are listed in the table below. For more information about Lustre LNet, see [*Understanding Lustre Networking (LNet)*](02-Introducing%20the%20Lustre%20File%20System.md#understanding-lustre-networking-lnet).
 
   
 
-  **Table 7. Network Types Supported by Lustre LNDs**
+  ##### Table 7. Network Types Supported by Lustre LNDs
 
   | Supported Network Types | Notes                                                        |
   | ----------------------- | ------------------------------------------------------------ |
@@ -89,7 +87,7 @@ To install the Lustre software from RPMs, the following are required:
 
 The InfiniBand and TCP Lustre LNDs are routinely tested during release cycles. The other LNDs are maintained by their respective owners
 
-- **High availability software** . If needed, install third party high-availability software. For more information, see [the section called “Preparing a Lustre File System for Failover”](dbdoclet.50438188_92688.html).
+- **High availability software** . If needed, install third party high-availability software. For more information, see [the section called “Preparing a Lustre File System for Failover”](02-08-Configuring%20Failover%20in%20a%20Lustre%20File%20System.md#preparing-a-lustre-file-system-for-failover).
 - **Optional packages.** Optional packages provided in the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository may include the following (depending on the operating system and platform):
   - `kernel-debuginfo`, `kernel-debuginfo-common`, `lustre-debuginfo`,`lustre-osd-ldiskfs-debuginfo`- Versions of required packages with debugging symbols and other debugging options enabled for use in troubleshooting.
   - `kernel-devel`, - Portions of the kernel tree needed to compile third party modules, such as network drivers.
@@ -102,7 +100,7 @@ The InfiniBand and TCP Lustre LNDs are routinely tested during release cycles. T
 
 Before installing the Lustre software, make sure the following environmental requirements are met.
 
-- (Required) **Use the same user IDs (UID) and group IDs (GID) on all clients.** If use of supplemental groups is required, see [the section called “User/Group Upcall”](dbdoclet.identity_upcall.html) for information about supplementary user and group cache upcall (`identity_upcall`).
+- (Required) **Use the same user IDs (UID) and group IDs (GID) on all clients.** If use of supplemental groups is required, see [the section called “User/Group Upcall”](06.04-Programming%20Interfaces.md#usergroup-upcall) for information about supplementary user and group cache upcall (`identity_upcall`).
 - (Recommended) **Provide remote shell access to clients.** It is recommended that all cluster nodes have remote shell client access to facilitate the use of Lustre configuration and monitoring scripts. Parallel Distributed SHell (pdsh) is preferable, although Secure SHell (SSH) is acceptable.
 - (Recommended) **Ensure client clocks are synchronized.** The Lustre file system uses client clocks for timestamps. If clocks are out of sync between clients, files will appear with different time stamps when accessed by different clients. Drifting clocks can also cause problems by, for example, making it difficult to debug multi-node issues or correlate logs, which depend on timestamps. We recommend that you use Network Time Protocol (NTP) to keep client and server clocks in sync with each other. For more information about NTP, see: [http://www.ntp.org](http://www.ntp.org/).
 - (Recommended) **Make sure security extensions** (such as the Novell AppArmor *security system) and **network packet filtering tools** (such as iptables) do not interfere with the Lustre software.
@@ -117,12 +115,12 @@ To install the Lustre software from RPMs, complete the steps below.
 
 1. Verify that all Lustre installation requirements have been met.
 
-   - For hardware requirements, see [*Determining Hardware Configuration Requirements and Formatting Options*](settinguplustresystem.html).
-   - For software and environmental requirements, see the section [the section called “ Preparing to Install the Lustre Software”](dbdoclet.50438261_99193.html)above.
+   - For hardware requirements, see [*Determining Hardware Configuration Requirements and Formatting Options*](02-02-Determining%20Hardware%20Configuration%20Requirements%20and%20Formatting%20Options.md).
+   - For software and environmental requirements, see the section [the section called “ Preparing to Install the Lustre Software”](#installing-the-lustre-software)above.
 
 2. Download the `e2fsprogs` RPMs for your platform from the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository.
 
-3. Download the Lustre server RPMs for your platform from the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository. See [Table 5, “Packages Installed on Lustre Servers”](section_rqs_tjw_3k.html#table_cnh_5m3_gk)for a list of required packages.
+3. Download the Lustre server RPMs for your platform from the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository. See [Table 5, “Packages Installed on Lustre Servers”](#table-5-packages-installed-on-lustre-servers)for a list of required packages.
 
 4. Install the Lustre server and `e2fsprogs` packages on all Lustre servers (MGS, MDSs, and OSSs).
 
@@ -152,7 +150,7 @@ To install the Lustre software from RPMs, complete the steps below.
 
    5. Repeat these steps on each Lustre server.
 
-5. Download the Lustre client RPMs for your platform from the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository. See [Table 6, “Packages Installed on Lustre Clients”](section_rqs_tjw_3k.html#table_j3r_ym3_gk)for a list of required packages.
+5. Download the Lustre client RPMs for your platform from the [Lustre Releases](https://wiki.whamcloud.com/display/PUB/Lustre+Releases)repository. See [Table 6, “Packages Installed on Lustre Clients”](#table-6-packages-installed-on-lustre-clients)for a list of required packages.
 
 6. Install the Lustre client packages on all Lustre clients.
 
@@ -186,5 +184,5 @@ To install the Lustre software from RPMs, complete the steps below.
 
    5. Repeat these steps on each Lustre client.
 
-To configure LNet, go to [*Configuring Lustre Networking (LNet)*](configuringlnet.html). If default settings will be used for LNet, go to [*Configuring a Lustre File System*](configuringlustre.html).
+To configure LNet, go to [*Configuring Lustre Networking (LNet)*](02-06-Configuring%20Lustre%20Networking%20(LNet).md). If default settings will be used for LNet, go to [*Configuring a Lustre File System*](02-07-Configuring%20a%20Lustre%20File%20System.md).
 

@@ -17,24 +17,22 @@ This chapter shows how to configure a simple Lustre file system comprised of a c
 
 ## Configuring a Simple Lustre File System
 
-- [Simple Lustre Configuration Example](ch10s01s01.html)
-
-A Lustre file system can be set up in a variety of configurations by using the administrative utilities provided with the Lustre software. The procedure below shows how to configure a simple Lustre file system consisting of a combined MGS/MDS, one OSS with two OSTs, and a client. For an overview of the entire Lustre installation procedure, see [*Installation Overview*](installoverview.html).
+A Lustre file system can be set up in a variety of configurations by using the administrative utilities provided with the Lustre software. The procedure below shows how to configure a simple Lustre file system consisting of a combined MGS/MDS, one OSS with two OSTs, and a client. For an overview of the entire Lustre installation procedure, see [*Installation Overview*](02-01-Installation%20Overview.md).
 
 This configuration procedure assumes you have completed the following:
 
-- **\*Set up and configured your hardware*** . For more information about hardware requirements, see [*Determining Hardware Configuration Requirements and Formatting Options*](settinguplustresystem.html).
-- **Downloaded and installed the Lustre software.**For more information about preparing for and installing the Lustre software, see [*Installing the Lustre Software*](installinglustre.html).
+- **\*Set up and configured your hardware*** . For more information about hardware requirements, see [*Determining Hardware Configuration Requirements and Formatting Options*](02-02-Determining%20Hardware%20Configuration%20Requirements%20and%20Formatting%20Options.md).
+- **Downloaded and installed the Lustre software.**For more information about preparing for and installing the Lustre software, see [*Installing the Lustre Software*](02-05-Installing%20the%20Lustre%20Software.md).
 
 The following optional steps should also be completed, if needed, before the Lustre software is configured:
 
-- *Set up a hardware or software RAID on block devices to be used as OSTs or MDTs.*For information about setting up RAID, see the documentation for your RAID controller or [*Configuring Storage on a Lustre File System*](configuringstorage.html).
-- *Set up network interface bonding on Ethernet interfaces.*For information about setting up network interface bonding, see [*Setting Up Network Interface Bonding*](settingupbonding.html).
+- *Set up a hardware or software RAID on block devices to be used as OSTs or MDTs.*For information about setting up RAID, see the documentation for your RAID controller or [*Configuring Storage on a Lustre File System*](02-03-Configuring%20Storage%20on%20a%20Lustre%20File%20System.md).
+- *Set up network interface bonding on Ethernet interfaces.*For information about setting up network interface bonding, see [*Setting Up Network Interface Bonding*](02-04-Setting%20Up%20Network%20Interface%20Bonding.md).
 - *Set* lnet *module parameters to specify how Lustre Networking (LNet) is to be configured to work with a Lustre file system and test the LNet configuration.*LNet will, by default, use the first TCP/IP interface it discovers on a system. If this network configuration is sufficient, you do not need to configure LNet. LNet configuration is required if you are using InfiniBand or multiple Ethernet interfaces.
 
-For information about configuring LNet, see [*Configuring Lustre Networking (LNet)*](configuringlnet.html). For information about testing LNet, see [*Testing Lustre Network Performance (LNet Self-Test)*](lnetselftest.html).
+For information about configuring LNet, see [*Configuring Lustre Networking (LNet)*](02-06-Configuring%20Lustre%20Networking%20(LNet).md). For information about testing LNet, see [*Testing Lustre Network Performance (LNet Self-Test)*](04.01-Testing%20Lustre%20Network%20Performance%20(LNet%20Self-Test).md).
 
-- *Run the benchmark script sgpdd-survey to determine baseline performance of your hardware.*Benchmarking your hardware will simplify debugging performance issues that are unrelated to the Lustre software and ensure you are getting the best possible performance with your installation. For information about running `sgpdd-survey`, see [*Benchmarking Lustre File System Performance (Lustre I/O Kit)*](benchmarkingtests.html).
+- *Run the benchmark script sgpdd-survey to determine baseline performance of your hardware.*Benchmarking your hardware will simplify debugging performance issues that are unrelated to the Lustre software and ensure you are getting the best possible performance with your installation. For information about running `sgpdd-survey`, see [*Benchmarking Lustre File System Performance (Lustre I/O Kit)*](04.02-Benchmarking%20Lustre%20File%20System%20Performance%20(Lustre%20IO%20Kit).md).
 
 ### Note
 
@@ -62,7 +60,7 @@ To configure a simple Lustre file system, complete these steps:
    /dev/block_device
    ```
 
-   See [the section called “ Running Multiple Lustre File Systems”](dbdoclet.50438194_88063.html)for more details.
+   See [the section called “ Running Multiple Lustre File Systems”](03.2-Lustre%20Operations.md#running-multiple-lustre-file-systems)for more details.
 
 2. Optional for Lustre software release 2.4 and later. Add in additional MDTs.
 
@@ -101,13 +99,13 @@ To configure a simple Lustre file system, complete these steps:
 
    When you create an OST, you are formatting a `ldiskfs` or `ZFS` file system on a block storage device like you would with any local file system.
 
-   You can have as many OSTs per OSS as the hardware or drivers allow. For more information about storage and memory requirements for a Lustre file system, see [*Determining Hardware Configuration Requirements and Formatting Options*](settinguplustresystem.html).
+   You can have as many OSTs per OSS as the hardware or drivers allow. For more information about storage and memory requirements for a Lustre file system, see [*Determining Hardware Configuration Requirements and Formatting Options*](c02-02-Determining%20Hardware%20Configuration%20Requirements%20and%20Formatting%20Options.md).
 
    You can only configure one OST per block device. You should create an OST that uses the raw block device and does not use partitioning.
 
    You should specify the OST index number at format time in order to simplify translating the OST number in error messages or file striping to the OSS node and block device later on.
 
-   If you are using block devices that are accessible from multiple OSS nodes, ensure that you mount the OSTs from only one OSS node at at time. It is strongly recommended that multiple-mount protection be enabled for such devices to prevent serious data corruption. For more information about multiple-mount protection, see [*Lustre File System Failover and Multiple-Mount Protection*](managingfailover.html).
+   If you are using block devices that are accessible from multiple OSS nodes, ensure that you mount the OSTs from only one OSS node at at time. It is strongly recommended that multiple-mount protection be enabled for such devices to prevent serious data corruption. For more information about multiple-mount protection, see [*Lustre File System Failover and Multiple-Mount Protection*](03.13-Lustre%20File%20System%20Failover%20and%20Multiple-Mount%20Protection.md).
 
    ### Note
 
@@ -123,7 +121,7 @@ To configure a simple Lustre file system, complete these steps:
 
    ### Note
 
-   To create additional OSTs, repeat Step [4](dbdoclet.50438267_50692.html#dbdoclet.format_ost)and Step [5](dbdoclet.50438267_50692.html#dbdoclet.mount_ost), specifying the next higher OST index number.
+   To create additional OSTs, repeat Step [4](#configuring-a-simple-lustre-file-system)and Step [5](#simple-lustre-configuration-example), specifying the next higher OST index number.
 
 6. Mount the Lustre file system on the client. On the client node, run:
 
@@ -136,7 +134,7 @@ To configure a simple Lustre file system, complete these steps:
 
    ### Note
 
-   To mount the filesystem on additional clients, repeat Step [6](dbdoclet.50438267_50692.html#dbdoclet.mount_on_client).
+   To mount the filesystem on additional clients, repeat Step [6](#configuring-a-simple-lustre-file-system).
 
    ### Note
 
@@ -146,8 +144,8 @@ To configure a simple Lustre file system, complete these steps:
 
 8. *(Optional)*Run benchmarking tools to validate the performance of hardware and software layers in the cluster. Available tools include:
 
-   - `obdfilter-survey`- Characterizes the storage performance of a Lustre file system. For details, see [the section called “Testing OST Performance (`obdfilter-survey`)”](dbdoclet.50438212_26516.html).
-   - `ost-survey`- Performs I/O against OSTs to detect anomalies between otherwise identical disk subsystems. For details, see [the section called “Testing OST I/O Performance (`ost-survey`)”](dbdoclet.50438212_85136.html).
+   - `obdfilter-survey`- Characterizes the storage performance of a Lustre file system. For details, see [the section called “Testing OST Performance (`obdfilter-survey`)”](04.02-Benchmarking%20Lustre%20File%20System%20Performance%20(Lustre%20IO%20Kit).md#testing-ost-performance-obdfilter-survey).
+   - `ost-survey`- Performs I/O against OSTs to detect anomalies between otherwise identical disk subsystems. For details, see [the section called “Testing OST I/O Performance (`ost-survey`)”](04.02-Benchmarking%20Lustre%20File%20System%20Performance%20(Lustre%20IO%20Kit).md#testing-ost-io-performance-ost-survey).
 
 ### Simple Lustre Configuration Example
 
@@ -435,7 +433,7 @@ A Lustre file system can be scaled by adding OSTs or clients. For instructions o
 
 ### Changing Striping Defaults
 
-The default settings for the file layout stripe pattern are shown in [Table 8, “Default stripe pattern”](ch10s02s02.html#configuringlustre.tab.stripe).
+The default settings for the file layout stripe pattern are shown in [Table 8, “Default stripe pattern”](#table-8-default-stripe-pattern).
 
 **Table 8. Default stripe pattern**
 
@@ -447,7 +445,7 @@ The default settings for the file layout stripe pattern are shown in [Table 8, �
 
 
 
-Use the `lfs setstripe` command described in [*Managing File Layout (Striping) and Free Space*](managingstripingfreespace.html)to change the file layout configuration.
+Use the `lfs setstripe` command described in [*Managing File Layout (Striping) and Free Space*](03.8-Managing%20File%20Layout%20(Striping)%20and%20Free%20Space.md)to change the file layout configuration.
 
 ### Using the Lustre Configuration Utilities
 
@@ -458,9 +456,9 @@ If additional configuration is necessary, several configuration utilities are av
 - `lctl`- Use to directly control Lustre features via an `ioctl` interface, allowing various configuration, maintenance and debugging features to be accessed.
 - `mount.lustre`- Use to start a Lustre client or target service.
 
-For examples using these utilities, see the topic [*System Configuration Utilities*](systemconfigurationutilities.html)
+For examples using these utilities, see the topic [*System Configuration Utilities*](06.07-System%20Configuration%20Utilities.md)
 
-The `lfs` utility is useful for configuring and querying a variety of options related to files. For more information, see [*User Utilities*](userutilities.html).
+The `lfs` utility is useful for configuring and querying a variety of options related to files. For more information, see [*User Utilities*](06.03-User%20Utilities.md).
 
 ### Note
 

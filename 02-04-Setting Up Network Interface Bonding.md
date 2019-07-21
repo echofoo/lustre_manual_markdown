@@ -110,8 +110,6 @@ For a busy network, increase the timeout.
 
 ## Setting Up Bonding
 
-- [Examples](ch07s04s01.html)
-
 To set up bonding:
 
 1. Create a virtual 'bond' interface by creating a configuration file:

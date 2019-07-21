@@ -16,7 +16,7 @@ This chapter describes how to configure failover in a Lustre file system. It inc
 - [the section called “Preparing a Lustre File System for Failover”](#preparing-a-lustre-file-system-for-failover)
 - [the section called “Administering Failover in a Lustre File System”](#administering-failover-in-a-lustre-file-system)
 
-For an overview of failover functionality in a Lustre file system, see [*Understanding Failover in a Lustre File System*](understandingfailover.html).
+For an overview of failover functionality in a Lustre file system, see [*Understanding Failover in a Lustre File System*](02-Introducing%20the%20Lustre%20File%20System.md#understanding-failover-in-a-lustre-file-system).
 
 ## Setting Up a Failover Environment
 
@@ -65,7 +65,7 @@ mkfs.lustre --reformat --ost --fsname testfs --mgsnode=192.168.10.1@o3ib \
 
 More than two potential service nodes can be designated for a target. The target can then be mounted on any of the designated service nodes.
 
-When HA is configured on a storage target, the Lustre software enables multi-mount protection (MMP) on that storage target. MMP prevents multiple nodes from simultaneously mounting and thus corrupting the data on the target. For more about MMP, see [*Lustre File System Failover and Multiple-Mount Protection*](managingfailover.html).
+When HA is configured on a storage target, the Lustre software enables multi-mount protection (MMP) on that storage target. MMP prevents multiple nodes from simultaneously mounting and thus corrupting the data on the target. For more about MMP, see [*Lustre File System Failover and Multiple-Mount Protection*](03.13-Lustre%20File%20System%20Failover%20and%20Multiple-Mount%20Protection.md).
 
 If the MGT has been formatted with multiple service nodes designated, this information must be conveyed to the Lustre client in the mount command used to mount the file system. In the example below, NIDs for two MGSs that have been designated as service nodes for the MGT are specified in the mount command executed on the client:
 
@@ -85,7 +85,7 @@ Previous to Lustre software release 2.0, the `--failnode` option to `mkfs.lustre
 
 For additional information about administering failover features in a Lustre file system, see:
 
-- [the section called “ Specifying Failout/Failover Mode for OSTs”](dbdoclet.50438194_57420.html)
-- [the section called “ Specifying NIDs and Failover”](dbdoclet.50438194_41817.html)
-- [the section called “ Changing the Address of a Failover Node”](dbdoclet.50438199_62333.html)
-- [the section called “ mkfs.lustre”](dbdoclet.50438219_75432.html)
+- [the section called “ Specifying Failout/Failover Mode for OSTs”](03.2-Lustre%20Operations.md#specifying-failoutfailover-mode-for-osts)
+- [the section called “ Specifying NIDs and Failover”](03.2-Lustre%20Operations.md#specifying-nids-and-failover)
+- [the section called “ Changing the Address of a Failover Node”](03.3-Lustre%20Maintenance.md#changing-the-address-of-a-failover-node)
+- [the section called “ mkfs.lustre”](06.07-System%20Configuration%20Utilities.md#mkfslustre)

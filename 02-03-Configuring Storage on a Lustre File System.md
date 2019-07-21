@@ -53,7 +53,7 @@ To maximize performance for small I/O request sizes, storage configured as RAID 
 
 RAID monitoring software is recommended to quickly detect faulty disks and allow them to be replaced to avoid double failures and data loss. Hot spare disks are recommended so that rebuilds happen without delays.
 
-Backups of the metadata file systems are recommended. For details, see [*Backing Up and Restoring a File System*](backupandrestore.html).
+Backups of the metadata file systems are recommended. For details, see [*Backing Up and Restoring a File System*](03.7-BackingUp%20and%20Restoring%20a%20File%20System.md).
 
 ## Performance Tradeoffs
 
@@ -75,7 +75,7 @@ For RAID 5, RAID 6, or RAID 1+0 storage, specifying the following option to the 
 
 The `*chunk_blocks*` variable is in units of 4096-byte blocks and represents the amount of contiguous data written to a single disk before moving to the next disk. This is alternately referred to as the RAID stripe size. This is applicable to both MDT and OST file systems.
 
-For more information on how to override the defaults while formatting MDT or OST file systems, see [the section called “ Setting ldiskfs File System Formatting Options ”](dbdoclet.ldiskfs_mkfs_opts.html).
+For more information on how to override the defaults while formatting MDT or OST file systems, see [the section called “ Setting ldiskfs File System Formatting Options ”](02-02-Determining%20Hardware%20Configuration%20Requirements%20and%20Formatting%20Options.md#setting-ldiskfs-file-system-formatting-options).
 
 ### Computing file system parameters for mkfs
 

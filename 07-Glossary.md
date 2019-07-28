@@ -118,7 +118,7 @@
 
 - lfs
 
-  The Lustre file system command-line utility that allows end users to interact with Lustre software features, such as setting or checking file striping or per-target free space. For more details, see [the section called “ `lfs`”](dbdoclet.50438206_94597.html).
+  The Lustre file system command-line utility that allows end users to interact with Lustre software features, such as setting or checking file striping or per-target free space. For more details, see [the section called “ `lfs`”](06.03-User%20Utilities.md#lfs).
 
 - LFSCK
 
@@ -342,4 +342,5 @@
 
 - Wide striping
 
-  Strategy of using many OSTs to store stripes of a single file. This obtains maximum bandwidth access to a single file through parallel utilization of many OSTs. For more information about wide striping, see *the section called “Lustre Striping Internals”*.
+  Strategy of using many OSTs to store stripes of a single file. This obtains maximum bandwidth access to a single file through parallel utilization of many OSTs. For more information about wide striping, see [*the section called “Lustre Striping Internals”*](03.8-Managing%20File%20Layout%20(Striping)%20and%20Free%20Space.md#lustre-striping-internals).
+

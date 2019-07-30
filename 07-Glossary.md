@@ -342,5 +342,5 @@
 
 - Wide striping
 
-  Strategy of using many OSTs to store stripes of a single file. This obtains maximum bandwidth access to a single file through parallel utilization of many OSTs. For more information about wide striping, see [*the section called “Lustre Striping Internals”*](03.8-Managing%20File%20Layout%20(Striping)%20and%20Free%20Space.md#lustre-striping-internals).
+  Strategy of using many OSTs to store stripes of a single file. This obtains maximum bandwidth access to a single file through parallel utilization of many OSTs. For more information about wide striping, see [*the section called “Lustre Striping Internals”*](03.08-Managing%20File%20Layout%20(Striping)%20and%20Free%20Space.md#lustre-striping-internals).
 
